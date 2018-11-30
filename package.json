@@ -1,0 +1,22 @@
+{
+  "name": "instagram-public-api",
+  "version": "1.0.0",
+  "description": "Fetches instagram public data",
+  "main": "index.js",
+  "scripts": {
+    "test:post": "node ./tests/test-get-post.js",
+    "test:profile": "node ./tests/test-get-profile.js"
+  },
+  "keywords": [
+    "instagram",
+    "public",
+    "api"
+  ],
+  "author": "subnik",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "isomorphic-fetch": "^2.2.1",
+    "superagent": "^4.0.0"
+  }
+}
