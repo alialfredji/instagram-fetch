@@ -90,46 +90,21 @@ class PostDataModelError extends Error {
     }
 }
 
-// post like owner profile pic
-const getlLikeDataModelOwnerProfilePic = (json) => {
-    if (json.profile_pic_url === undefined) {
-        throw Error('[Post Like Owner ProfilePic] missing in json')
-    }
-
-    return json.profile_pic_url
-}
-
-// post like owner username
-const getlLikeDataModelOwnerUsername = (json) => {
-    if (json.username === undefined) {
-        throw Error('[Post Like Owner Username] missing in json')
-    }
-
-    return json.username.toLowerCase()
-}
-
-// post like owner id
-const getLikeDataModelOwnerId = (json) => {
-    if (json.id === undefined) {
-        throw Error('[Post Like Owner Id] missing in json')
-    }
-
-    return json.id
-}
-
 // post like data
-const getLikeDataModel = (json) => {
-    const likeData = json.node
+const dataModelLike = (json) => {
+    if (json.node === undefined) {
+        throw Error('[Post Like Node] missing in json')
+    }
 
     return {
-        ownerId: getLikeDataModelOwnerId(likeData),
-        ownerUsername: getlLikeDataModelOwnerUsername(likeData),
-        ownerProfilePic: getlLikeDataModelOwnerProfilePic(likeData),
+        id: json.node.id,
+        username: json.node.username.toLowerCase(),
+        pic: json.node.profile_pic_url,
     }
 }
 
 // post likes data
-const getPostDataModelLikesList = (json) => {
+const dataModelLikesList = (json) => {
     if (!json.edge_media_preview_like || json.edge_media_preview_like === undefined) {
         throw Error('[Post Likes] missing in json')
     }
@@ -142,38 +117,11 @@ const getPostDataModelLikesList = (json) => {
         return []
     }
 
-    return json.edge_media_preview_like.edges.map(getLikeDataModel)
-}
-
-// post comment owner id
-const getCommentDataModelOwnerId = (owner) => {
-    if (owner.id === undefined) {
-        throw Error('[Post Comment Owner Id] missing in json')
-    }
-
-    return owner.id
-}
-
-// post comment owner username
-const getCommentDataModelOwnerUsername = (owner) => {
-    if (owner.username === undefined) {
-        throw Error('[Post Comment Owner username] missing in json')
-    }
-
-    return owner.username.toLowerCase()
-}
-
-// post comment owner profile pic
-const getCommentDataModelProfilePic = (owner) => {
-    if (!owner.profile_pic_url && owner.profile_pic_url === undefined) {
-        throw Error('[Post Comment Owner ProfilePic] missing in json')
-    }
-
-    return owner.profile_pic_url
+    return json.edge_media_preview_like.edges.map(dataModelLike)
 }
 
 // post comment text
-const getCommentDataModelCommentText = (json) => {
+const dataModelCommentText = (json) => {
     if (json.text === undefined) {
         throw Error('[Post Comment Text] missing in json')
     }
@@ -188,7 +136,7 @@ const getCommentDataModelCommentText = (json) => {
 }
 
 // post comment timestamp
-const getCommentDataModelCommentTimestamp = (json) => {
+const dataModelCommentTimestamp = (json) => {
     if (!json.created_at && json.created_at === undefined) {
         throw Error('[Post Comment CreatedAt] missing in json')
     }
@@ -196,39 +144,38 @@ const getCommentDataModelCommentTimestamp = (json) => {
     return getPostTimestampByDate(json.created_at)
 }
 
-// post comment id
-const getCommentDataModelId = (json) => {
-    if (!json.id && json.id === undefined) {
-        throw Error('[Post Comment Id] missing in json')
+const dataModelCommentOwner = (json) => {
+    if (json.owner === undefined) {
+        throw Error('[Post Comment Owner] missing in json')
     }
 
-    return json.id
+    return {
+        id: json.owner.id,
+        username: json.owner.username.toLowerCase(),
+        pic: json.owner.profile_pic_url
+    }
 }
 
 // post comment data
-const getCommentDataModel = (json) => {
+const dataModelComment = (json) => {
     const commentData = json.node
 
     if (commentData.owner === undefined) {
         throw Error('[Post Comment Owner] missing in json')
     }
 
-    const owner = commentData.owner
-    const commentText = getCommentDataModelCommentText(commentData)
+    const text = dataModelCommentText(commentData)
     return {
-        id: getCommentDataModelId(commentData),
-        ownerId: getCommentDataModelOwnerId(owner),
-        ownerUsername: getCommentDataModelOwnerUsername(owner),
-        commentText,
-        ownerProfilePic: getCommentDataModelProfilePic(owner),
-        commentTimestamp: getCommentDataModelCommentTimestamp(commentData),
-        mentionsList: getTextUsernames(commentText),
-        hashtagsList: getHashtags(commentText),
+        text,
+        owner: dataModelCommentOwner(commentData),
+        commentTimestamp: dataModelCommentTimestamp(commentData),
+        mentionsList: getTextUsernames(text),
+        hashtagsList: getHashtags(text),
     }
 }
 
 // post comments data
-const getPostDataModelCommentsList = (json) => {
+const dataModelCommentsList = (json) => {
     if (!json.edge_media_to_comment || json.edge_media_to_comment === undefined) {
         throw Error('[Post Comments] missing in json')
     }
@@ -241,11 +188,11 @@ const getPostDataModelCommentsList = (json) => {
         return []
     }
 
-    return json.edge_media_to_comment.edges.map(getCommentDataModel)
+    return json.edge_media_to_comment.edges.map(dataModelComment)
 }
 
 // post caption
-const getPostDataModelCaption = (json) => {
+const dataModelCaption = (json) => {
     let text = ''
     const caption = json.edge_media_to_caption
 
@@ -261,15 +208,12 @@ const getPostDataModelCaption = (json) => {
         return text
     }
 
-    text = caption.edges[0].node.text.toLowerCase()
+    return caption.edges[0].node.text.toLowerCase()
 
-    return text < 500
-        ? text
-        : text.slice(0, 500)
 }
 
 // post sponsor tagged usernames
-const getPostDataModelSponsorsList = (json) => {
+const dataModelSponsorsList = (json) => {
     const sponsorTagged = json.edge_media_to_sponsor_user
 
     if (!sponsorTagged || sponsorTagged === undefined) {
@@ -286,12 +230,12 @@ const getPostDataModelSponsorsList = (json) => {
 
     return sponsorTagged.edges.map(item => ({
         id: item.node.sponsor.id,
-        username: item.node.sponsor.username,
+        username: item.node.sponsor.username.toLowerCase(),
     }))
 }
 
 // post on image/video tagged usernames
-const getPostDataModelTaggedList = (json, sponsorsList) => {
+const dataModelTaggedList = (json, sponsorsList) => {
     const postTagged = json.edge_media_to_tagged_user
     let taggedList = []
 
@@ -329,81 +273,87 @@ const getPostDataModelTaggedList = (json, sponsorsList) => {
 
 
 // post caption mentions
-const getPostDataModelMentionsList = (text, sponsorsList) => {
+const dataModelMentionsList = (text, sponsorsList) => {
     const mentions = getTextUsernames(text)
 
     return mentions.map(mention => ({
         id: getProfileIdFromSponsor(mention, sponsorsList),
-        username: mention,
+        username: mention.toLowerCase(),
     }))
 }
 
-// post owner id
-const getPostDataModelOwnerId = (owner) => {
-    if (!owner.id || owner.id === undefined) {
-        throw Error('[Post Owner Id] missing in json')
+const dataModelOwner = (json) => {
+    if (json.owner === undefined) {
+        throw Error('[Post Owner] missing in json')
     }
 
-    return owner.id
+    return {
+        id: json.owner.id,
+        username: json.owner.username.toLowerCase(),
+        pic: json.owner.profile_pic_url,
+        fullName: json.owner.full_name,
+        isPublic: json.owner.is_private === false,
+        isVerified: json.owner.is_verified,
+    }
 }
 
-// post owner username
-const getPostDataModelOwnerUsername = (owner) => {
-    if (!owner.username || owner.username === undefined) {
-        throw Error('[Post Owner Username] missing in json')
+const dataModelLocationAddress = (json) => {
+    if (json.address_json === undefined) {
+        throw Error('[Post Location Address] missing in json')
     }
 
-    return owner.username.toLowerCase()
+    if (typeof json.address_json !== 'string') {
+        console.log('[Post Location Address] changed struture')
+        return {}
+    }
+
+    const IGAddress = JSON.parse(json.address_json)
+    let address = {}
+    address.streetAddress = IGAddress.street_address.toLowerCase()
+    address.zipCode = IGAddress.zip_code.toLowerCase()
+    address.cityName = IGAddress.city_name.toLowerCase()
+    address.regionName = IGAddress.region_name.toLowerCase()
+    address.countryCode = IGAddress.country_code.toLowerCase()
+
+    return address
 }
 
-// post owner isPublic
-const getPostDataModelOwnerIsPublic = (owner) => {
-    if (owner.is_private === undefined) {
-        throw Error('[Post Owner isPrivate] missing in json')
+const dataModelLocationSlug = (json) => {
+    if (json.slug === undefined) {
+        throw Error('[Post Location Slug] missing in json')
     }
 
-    if (owner.is_private) {
-        return false
-    }
-
-    return true
+    return json.slug.toLowerCase()
 }
 
-// post location
-const getPostLocation = (json) => {
+const dataModelLocationName = (json) => {
+    if (json.name === undefined) {
+        throw Error('[Post Location Name] missing in json')
+    }
+
+    return json.name.toLowerCase()
+}
+
+const dataModelLocation = (json) => {
     const location = json.location
 
     if (location === undefined) {
         throw Error('[Post Location] missing in json')
     }
 
-    return json.location
-}
-
-// post location id
-const getPostDataModelLocationId = (json) => {
-    const location = getPostLocation(json)
-
     if (location === null) {
         return null
     }
 
-    return location.id
-}
-
-// post location name
-const getPostDataModelLocationName = (json) => {
-    const location = getPostLocation(json)
-
-    if (location === null) {
-        return ''
+    return {
+        name: dataModelLocationName(location),
+        slug: dataModelLocationSlug(location),
+        address: dataModelLocationAddress(location),
     }
-
-    return location.name.toLowerCase()
 }
 
 // post timestamp
-const getPostDataModelTimestamp = (json) => {
+const dataModelTimestamp = (json) => {
     if (!json.taken_at_timestamp || json.taken_at_timestamp === undefined) {
         throw Error('[Post Timestamp] missing in json')
     }
@@ -412,7 +362,7 @@ const getPostDataModelTimestamp = (json) => {
 }
 
 // post likes count
-const getPostDataModelLikes = (json) => {
+const dataModelLikes = (json) => {
     if (!json.edge_media_preview_like || json.edge_media_preview_like === undefined) {
         throw Error('[Post Likes] missing in json')
     }
@@ -425,7 +375,7 @@ const getPostDataModelLikes = (json) => {
 }
 
 // post comments count
-const getPostDataModelComments = (json) => {
+const dataModelComments = (json) => {
     if (!json.edge_media_to_comment || json.edge_media_to_comment === undefined) {
         throw Error('[Post Comments] missing in json')
     }
@@ -437,7 +387,7 @@ const getPostDataModelComments = (json) => {
     return json.edge_media_to_comment.count
 }
 
-const getPostDataModelPostUrl = (json) => {
+const dataModelDisplayUrl = (json) => {
     if (!json.display_url || json.display_url === undefined) {
         throw Error('[Post Big Size] missing in json')
     }
@@ -446,7 +396,7 @@ const getPostDataModelPostUrl = (json) => {
 }
 
 // post thumbnail
-const getPostDataModelPostThumbnail = (json) => {
+const dataModelThumbnail = (json) => {
     if (json.display_resources === undefined || json.display_resources.length === 0) {
         throw Error('[Post Thumbnail] missing in json')
     }
@@ -469,7 +419,7 @@ const getPostIsVideo = (json) => {
     return json.is_video
 }
 
-const getPostDataModelVideoUrl = (json) => {
+const dataModelVideoUrl = (json) => {
     const isVideo = getPostIsVideo(json)
 
     if (!isVideo) {
@@ -484,7 +434,7 @@ const getPostDataModelVideoUrl = (json) => {
 }
 
 // post type
-const getPostDataModelPostType = (json) => {
+const dataModelType = (json) => {
     const isVideo = getPostIsVideo(json)
 
     if (isVideo) {
@@ -494,8 +444,15 @@ const getPostDataModelPostType = (json) => {
     return 'image'
 }
 
+const dataModelCounts = (json) => {
+    return {
+        comments: dataModelComments(json),
+        likes: dataModelLikes(json),
+    }
+}
+
 // post video views
-const getPostDataModelVideoViews = (json) => {
+const dataModelVideoViews = (json) => {
     const isVideo = getPostIsVideo(json)
 
     if (!isVideo) {
@@ -510,7 +467,7 @@ const getPostDataModelVideoViews = (json) => {
 }
 
 // post code
-const getPostDataModelCode = (json) => {
+const dataModelCode = (json) => {
     if (!json.shortcode || json.shortcode === undefined) {
         throw Error('[Post Code] missing in json')
     }
@@ -519,7 +476,7 @@ const getPostDataModelCode = (json) => {
 }
 
 // post id
-const getPostDataModelId = (json) => {
+const dataModelId = (json) => {
     if (!json.id || json.id === undefined) {
         throw Error('[Post Id] missing in json')
     }
@@ -543,32 +500,28 @@ const postDataModel = (json) => {
         throw Error('[Post Owner] missing in json')
     }
 
-    const owner = postData.owner
-    const caption = getPostDataModelCaption(postData)
-    const sponsorsList = getPostDataModelSponsorsList(postData)
+    const caption = dataModelCaption(postData)
+    const sponsorsList = dataModelSponsorsList(postData)
+
     try {
         return {
-            id: getPostDataModelId(postData),
-            code: getPostDataModelCode(postData),
-            postType: getPostDataModelPostType(postData),
-            postThumbnail: getPostDataModelPostThumbnail(postData),
-            postUrl: getPostDataModelPostUrl(postData),
-            videoUrl: getPostDataModelVideoUrl(postData),
-            videoViews: getPostDataModelVideoViews(postData),
-            comments: getPostDataModelComments(postData),
-            likes: getPostDataModelLikes(postData),
-            timestamp: getPostDataModelTimestamp(postData),
-            locationId: getPostDataModelLocationId(postData),
-            locationName: getPostDataModelLocationName(postData),
-            ownerId: getPostDataModelOwnerId(owner),
-            ownerUsername: getPostDataModelOwnerUsername(owner),
-            ownerIsPublic: getPostDataModelOwnerIsPublic(owner),
+            id: dataModelId(postData),
+            code: dataModelCode(postData),
+            type: dataModelType(postData),
+            thumbnail: dataModelThumbnail(postData),
+            displayUrl: dataModelDisplayUrl(postData),
+            videoUrl: dataModelVideoUrl(postData),
+            videoViews: dataModelVideoViews(postData),
+            counts: dataModelCounts(postData),
+            timestamp: dataModelTimestamp(postData),
+            location: dataModelLocation(postData),
+            owner: dataModelOwner(postData),
             caption,
-            mentionsList: getPostDataModelMentionsList(caption, sponsorsList),
+            mentionsList: dataModelMentionsList(caption, sponsorsList),
             sponsorsList,
-            taggedList: getPostDataModelTaggedList(postData, sponsorsList),
-            commentsList: getPostDataModelCommentsList(postData),
-            likesList: getPostDataModelLikesList(postData),
+            taggedList: dataModelTaggedList(postData, sponsorsList),
+            commentsList: dataModelCommentsList(postData),
+            likesList: dataModelLikesList(postData),
             hashtagsList: getHashtags(caption),
         }
     } catch (err) {
