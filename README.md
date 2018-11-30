@@ -1,8 +1,8 @@
-## Instagram-public-api module
+## Instagram public api module
 
-Easy to use.
+Easy to use. NOTE! this returns a promise so you need to handle it.
 
-`const module = require('instagram-public-api')`
+`const module = require('IG-public-api')`
 
 ## Get post data
 
