@@ -8,7 +8,7 @@ const createProfileDataModel = require('./instagram/profile-data-model')
 const getPost = async (code) => {
     try {
         const json = await fetchPost(code)
-        const data = await createPostDataModel(json)
+        const data = createPostDataModel(json)
 
         return data
     } catch (err) {
@@ -19,7 +19,7 @@ const getPost = async (code) => {
 const getProfile = async (username) => {
     try {
         const json = await fetchProfile(username)
-        const data = await createProfileDataModel(json)
+        const data = createProfileDataModel(json)
 
         return data
     } catch (err) {
