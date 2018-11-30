@@ -4,8 +4,9 @@
   "description": "Fetches instagram public data",
   "main": "index.js",
   "scripts": {
-    "test:post": "node ./tests/test-get-post.js",
-    "test:profile": "node ./tests/test-get-profile.js",
+    "test:post": "./node_modules/mocha/bin/mocha ./tests/get-post.test.js",
+    "test:profile": "./node_modules/mocha/bin/mocha ./tests/get-profile.test.js",
+    "test:all": "./node_modules/mocha/bin/mocha ./tests/*.test.js",
     "book:serve": "node_modules/.bin/gitbook serve",
     "book:build": "node_modules/.bin/gitbook build . docs"
   },
@@ -17,8 +18,10 @@
   "author": "subnik",
   "license": "ISC",
   "dependencies": {
+    "assert": "^1.4.1",
     "cheerio": "^1.0.0-rc.2",
     "isomorphic-fetch": "^2.2.1",
+    "mocha": "^5.2.0",
     "superagent": "^4.0.0"
   },
   "devDependencies": {
