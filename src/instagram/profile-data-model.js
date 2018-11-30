@@ -1,55 +1,3 @@
-
-/* Created a data model like:
-
-{
-    id: "987012765",
-    picUrl: "https://scontent-arn2-1.cdninstagram.com/vp/798783c843d0d1b04ffd7adf617ffd7a/5B2FE556/t51.2885-19/s150x150/26066734_202771020281020_138210325303394304_n.jpg",
-    avgLikes: 1287,
-    fullName: "mustafa alfredji",
-    isPublic: true,
-    picUrlHd: "https://scontent-arn2-1.cdninstagram.com/vp/4490007cbe450c2dd283468d50d47f17/5B44FF5B/t51.2885-19/s320x320/26066734_202771020281020_138210325303394304_n.jpg",
-    username: "mustafaalfredji",
-    biography: "think differently.\n• malmö, sweden\n• 20 year old. \n• founder & ceo of mysocial",
-    followers: 17446,
-    emailsList: ['mustafa@mysocial.io'],
-    followings: 234,
-    isVerified: false,
-    postsCount: 386,
-    avgComments: 21,
-    externalUrl: "http://mysocial.io/",
-    estPostPrice: 128,
-    avgVideoViews: 4048,
-    engagementRate: 0.0738,
-    uploadFrequency: 3,
-    videoViewsToFollowersRatio: 0.078,
-    videoRate: 0.167,
-    imageRate: 0.833,
-    hashtagsPerPost: 2.023
-    allPostsHashtagsList: ['haha', 'foo'],
-    mentionsList: ['mysocial'],
-    hashtagsList: ['fitness'],
-    postsList: [
-        {
-        id: '1732176804066943028',
-        ownerId: '987012765',
-        code: "BfoKyhNFOOi",
-        likes: 1066,
-        caption: "limits only exists in the mind",
-        postUrl: "https://scontent-arn2-1.cdninstagram.com/vp/16e843183e8d9748225429c71130bd90/5B102076/t51.2885-15/e35/28152488_713188275736360_7941039667221102592_n.jpg",
-        comments: 10,
-        postType: 0,
-        timestamp: 1519578802000,
-        videoViews: null,
-        mentionsList: ['kenzas'],
-        hashtagsList: ['haha', 'foo'],
-        postThumbnail: "https://scontent-arn2-1.cdninstagram.com/vp/7b04f55c5c7fe5df0d46fac969d92ea7/5B44DD13/t51.2885-15/s150x150/e35/28152488_713188275736360_7941039667221102592_n.jpg"
-        },
-        {...post},
-    ],
-}
-
-*/
-
 const getErrorOrigin = require('../error/get-origin')
 const text2emails = require('./lib/text2emails')
 const getPostTimestampByDate = require('./lib/get-post-timestamp-by-date')
@@ -58,7 +6,6 @@ const getAvgLikes = require('./lib/get-average-likes')
 const getAvgComments = require('./lib/get-average-comments')
 const getAvgVideoViews = require('./lib/get-average-video-views')
 const getEngagementRate = require('./lib/get-engagement-rate')
-const getEstPostPrice = require('./lib/get-estimated-post-price')
 const getTextUsernames = require('./lib/get-text-usernames')
 const getHashtags = require('./lib/get-hashtags')
 const getVideoViewsToFollowersRatio = require('./lib/get-video-views-to-followers-ratio')
@@ -378,7 +325,6 @@ const profileDataModel = (json) => {
             uploadFrequency: getUploadFrequencyPerWeek(postsList),
             avgComments,
             avgVideoViews,
-            estPostPrice: getEstPostPrice(followers, avgLikes, engagementRate),
             emailsList,
             mentionsList: profileMentionsList(biography, emailsList),
             hashtagsList: getHashtags(biography),
