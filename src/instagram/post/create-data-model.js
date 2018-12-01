@@ -16,34 +16,23 @@ class PostDataModelError extends Error {
 
 // post comment text
 const dataModelCommentText = (json) => {
-    if (json.text === undefined) {
-        throw Error('[Post Comment Text] missing in json')
-    }
-
-    if (json.text === null) {
-        return ''
-    }
-
-    return json.text.length < 500
-        ? json.text.toLowerCase()
-        : json.text.slice(0, 500).toLowerCase()
+    if (json.text === undefined) throw Error('[Post Comment Text] missing in json')
+    if (json.text === null) return ''
+    return json.text.toLowerCase()
 }
 
 // post comment data
 const dataModelComment = (json) => {
-    const commentData = json.node
+    if (json.node === undefined) throw Error('[Post Comment Node] missing in json')
+    if (json.node.owner === undefined) throw Error('[Post Comment Owner] missing in json')
 
-    if (commentData.owner === undefined) {
-        throw Error('[Post Comment Owner] missing in json')
-    }
-
-    const text = dataModelCommentText(commentData)
+    const text = dataModelCommentText(json.node)
     return {
         text,
-        ownerId: json.owner.id,
-        ownerUsername: json.owner.username.toLowerCase(),
-        ownerPic: json.owner.profile_pic_url,
-        commentTimestamp: json.created_at ? getPostTimestampByDate(json.created_at) : null,
+        ownerId: json.node.owner.id,
+        ownerUsername: json.node.owner.username.toLowerCase(),
+        ownerPic: json.node.owner.profile_pic_url,
+        commentTimestamp: json.node.created_at ? getPostTimestampByDate(json.node.created_at) : null,
         mentionsList: getTextUsernames(text),
         hashtagsList: getHashtags(text),
     }
@@ -107,14 +96,11 @@ const dataModelTaggedList = (json, sponsorsList) => {
 }
 
 // post caption mentions
-const dataModelMentionsList = (text, sponsorsList) => {
-    const mentions = getTextUsernames(text)
-
-    return mentions.map(mention => ({
+const dataModelMentionsList = (text, sponsorsList) =>
+    getTextUsernames(text).map(mention => ({
         id: getProfileIdFromSponsor(mention, sponsorsList),
         username: mention.toLowerCase(),
     }))
-}
 
 const dataModelLocationAddress = (location) => {
     const IGAddress = JSON.parse(location.address_json)
