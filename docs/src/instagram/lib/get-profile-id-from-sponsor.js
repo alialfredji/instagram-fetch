@@ -6,7 +6,7 @@ const getProfileIdFromSponsor = (username, sponsorList) => {
         return profileId
     }
 
-    sponsorList.map((sponsor) => // eslint-disable-line
+    sponsorList.map((sponsor) =>
         sponsor.username.indexOf(username) !== -1
             ? profileId = sponsor.id
             : null

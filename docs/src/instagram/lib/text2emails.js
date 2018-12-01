@@ -6,13 +6,9 @@ const text2emails = (text = '') => {
         return []
     }
 
-    const emails = text.match(emailRegex)
-
-    if (emails === null) {
-        return []
-    }
-
-    return emails
+    return text.match(emailRegex) === null
+        ? []
+        : text.match(emailRegex)
 }
 
 module.exports = text2emails

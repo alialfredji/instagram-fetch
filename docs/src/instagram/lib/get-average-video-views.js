@@ -7,7 +7,7 @@ const getAvgVideoViews = (posts) => {
     }
 
     let videoViewsList = posts.map(item => item.videoViews)
-    videoViewsList = videoViewsList.filter(item => item !== null)
+    videoViewsList = videoViewsList.filter(item => item !== undefined)
 
     if (videoViewsList.length === 0) {
         return null

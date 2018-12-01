@@ -1,19 +1,45 @@
 ## Instagram public api module
 
-Easy to use. NOTE! this returns a promise so you need to handle it.
+Easy to use module to fetch data from instagram. NOTE! this returns a promise so you need to handle it.
 
-`const module = require('IG-public-api')`
+Import the module: `const publicInstagramApi = require('public-ig-api')`
+
+## Install module
+
+`yarn add public-ig-api`
+
+`npm install public-ig-api --save`
 
 ## Get post data
 
+#### Promise
+
 ```
-module.getPost('someInstagramPostCode')
+publicInstagramApi.getPost('somePostCode') // example Bq0gUSGgFv7
+    .then(data => console.log(data))
+    .catch(err => console.log(err))
+```
+
+#### Async/Await
+
+```
+const data = await publicInstagramApi.getPost('somePostCode') // example 'Bq0gUSGgFv7'
+console.log(data)
 ```
 
 ## Get profile data
 
+#### Promise
+
 ```
-module.getProfile('someInstagramUsername')
+publicInstagramApi.getProfile('someProfileUsername') // example 'instagram'
+    .then(data => console.log(data))
+    .catch(err => console.log(err))
 ```
 
-edwwwedewdw
+#### Async/Await
+
+```
+const data = await publicInstagramApi.getProfile('someProfileUsername') // example 'instagram'
+console.log(data)
+```

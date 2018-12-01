@@ -1,15 +1,8 @@
 
-const getAvgNumber = (numbersList) => {
-    const sum = numbersList.reduce((tot, value) => tot + value, 0)
+const getAvgNumber = (numbersList) =>
+    numbersList.reduce((tot, value) => tot + value, 0) / numbersList.length
 
-    return sum / numbersList.length
-}
-
-const getAvgInteger = (numbersList) => {
-    const avg = getAvgNumber(numbersList)
-
-    return Math.round(avg)
-}
+const getAvgInteger = (numbersList) => Math.round(getAvgNumber(numbersList))
 
 module.exports = {
     getAvgInteger,
