@@ -42,9 +42,8 @@ describe('Test getProfile', function() {
         assert.equal(data.username, process.argv[3] || 'instagram')
     })
 
-    it.only('should test model getPofile', async function() {
+    it('should test model getPofile', async function() {
         const data = await getProfile(process.argv[3] || 'instagram')
-        console.log(data)
         assert.equal(data.username, process.argv[3] || 'instagram')
     })
 })
