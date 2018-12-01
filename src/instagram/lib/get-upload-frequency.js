@@ -1,9 +1,10 @@
 
 const getUploadFrequencyPerWeek = (posts) => {
-    let freq = null
-
     if (posts.length === 0) {
-        return 0
+        return {
+            month: 0,
+            week: 0,
+        }
     }
 
     // count date diff from last uploaded post
@@ -11,11 +12,13 @@ const getUploadFrequencyPerWeek = (posts) => {
     const dateDiff = new Date() - lastPostTimestamp
 
     const dateDiffAvg = dateDiff/posts.length
-    const weekTimestamp = 604800000
+    const weekTimestamp = 1000 * 60 * 60 * 24 * 7
+    const monthTimestamp = weekTimestamp * 30 
 
-    freq = Math.round(weekTimestamp / dateDiffAvg)
-
-    return freq
+    return {
+        month: Math.round(monthTimestamp / dateDiffAvg),
+        week: Math.round(weekTimestamp / dateDiffAvg)
+    }
 }
 
 module.exports = getUploadFrequencyPerWeek

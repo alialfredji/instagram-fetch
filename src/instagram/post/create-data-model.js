@@ -1,5 +1,4 @@
 const getErrorOrigin = require('../../error/get-origin')
-const getPostTimestampByDate = require('../lib/get-post-timestamp-by-date')
 const getTextUsernames = require('../lib/get-text-usernames')
 const getProfileIdFromSponsor = require('../lib/get-profile-id-from-sponsor')
 const getHashtags = require('../lib/get-hashtags')
@@ -32,7 +31,7 @@ const dataModelComment = (json) => {
         ownerId: json.node.owner.id,
         ownerUsername: json.node.owner.username.toLowerCase(),
         ownerPic: json.node.owner.profile_pic_url,
-        commentTimestamp: json.node.created_at ? getPostTimestampByDate(json.node.created_at) : null,
+        commentTimestamp: json.node.created_at ? json.node.created_at * 1000 : null,
         mentionsList: getTextUsernames(text),
         hashtagsList: getHashtags(text),
     }
@@ -126,11 +125,11 @@ const postDataModel = (json) => {
             type: data.is_video ? 'video' : 'image',
             thumbnail: data.display_resources.length  ? data.display_resources[0].src : null,
             displayUrl: data.display_url,
-            videoUrl: data.video_url,
-            videoViews: data.video_view_count,
+            videoUrl: data.video_url ? data.video_url : null,
+            videoViews: data.video_view_count ? data.video_view_count : null,
             commentsCount: data.edge_media_to_comment.count,
             likesCount: data.edge_media_preview_like.count,
-            timestamp: getPostTimestampByDate(data.taken_at_timestamp),
+            timestamp: data.taken_at_timestamp * 1000,
             locationName: data.location ? data.location.name.toLowerCase() : null,
             locationSlug: data.location ? data.location.slug.toLowerCase() : null,
             locationAddress: data.location ? dataModelLocationAddress(data.location) : null,
@@ -149,7 +148,7 @@ const postDataModel = (json) => {
             ownerIsVerified: data.owner.is_verified,
         }
     } catch (err) {
-        throw new PostDataModelError(err.message)
+        throw new PostDataModelError(err)
     }
 }
 

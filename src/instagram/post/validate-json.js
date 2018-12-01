@@ -27,14 +27,11 @@ const locationType = {
     },
 }
 
-// contain array
-
 const edgesType = {
     id: '/edgesType',
     type: 'object',
-    required: ['edges'],
     properties: {
-        edges: { type: 'array' },
+        edges: { type: 'array', required: true },
     },
 }
 

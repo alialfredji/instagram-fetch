@@ -72,7 +72,7 @@ const fetchInstagramProfile = async (username) => {
 
         return profile
     } catch (err) {
-        throw new FetchInstagramProfileError(err.message)
+        throw new FetchInstagramProfileError(err)
     }
 }
 
