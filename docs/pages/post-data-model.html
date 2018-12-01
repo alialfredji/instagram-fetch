@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Profile data model · GitBook</title>
+        <title>Post data model · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -57,10 +57,8 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="post-data-model.html" />
     
-    
-    <link rel="prev" href="../" />
+    <link rel="prev" href="profile-data-model.html" />
     
 
     </head>
@@ -102,7 +100,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.2" data-path="profile-data-model.html">
+        <li class="chapter " data-level="1.2" data-path="profile-data-model.html">
             
                 <a href="profile-data-model.html">
             
@@ -115,7 +113,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.3" data-path="post-data-model.html">
+        <li class="chapter active" data-level="1.3" data-path="post-data-model.html">
             
                 <a href="post-data-model.html">
             
@@ -158,7 +156,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Profile data model</a>
+        <a href=".." >Post data model</a>
     </h1>
 </div>
 
@@ -173,8 +171,8 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="profile-data-model">Profile data model</h1>
-<p>This is the data structure returned when requesting <strong>getProfile(&apos;username&apos;)</strong></p>
+                                <h1 id="post-data-model">Post data model</h1>
+<p>This is the data structure returned when requesting <strong>getPost(&apos;postCode&apos;)</strong></p>
 <table>
 <thead>
 <tr>
@@ -187,157 +185,131 @@
 <tr>
 <td>id</td>
 <td><code>string</code></td>
-<td>Unique profile identifier</td>
+<td>Unique post identifier</td>
 </tr>
 <tr>
-<td>username</td>
+<td>code</td>
 <td><code>string</code></td>
-<td>Unique profile username</td>
+<td>Unique post code</td>
 </tr>
 <tr>
-<td>biography</td>
+<td>type</td>
+<td><code>string</code></td>
+<td>Either <strong>video</strong> or <strong>image</strong></td>
+</tr>
+<tr>
+<td>thumbnail</td>
+<td><code>string</code></td>
+<td></td>
+</tr>
+<tr>
+<td>displayUrl</td>
+<td><code>string</code></td>
+<td></td>
+</tr>
+<tr>
+<td>videoUrl</td>
 <td><code>string, null</code></td>
-<td>profile biography</td>
+<td></td>
 </tr>
 <tr>
-<td>followers</td>
+<td>videoViews</td>
+<td><code>number, null</code></td>
+<td></td>
+</tr>
+<tr>
+<td>commentsCount</td>
 <td><code>number</code></td>
-<td>total followers count</td>
+<td></td>
 </tr>
 <tr>
-<td>externalUrl</td>
-<td><code>string, null</code></td>
-<td>linked external url</td>
-</tr>
-<tr>
-<td>followings</td>
+<td>likesCount</td>
 <td><code>number</code></td>
-<td>total followings count</td>
+<td></td>
 </tr>
 <tr>
-<td>fullName</td>
+<td>timestamp</td>
+<td><code>number</code></td>
+<td>Timestamp post got uploaded</td>
+</tr>
+<tr>
+<td>locationName</td>
 <td><code>string, null</code></td>
-<td>profile provided full name</td>
+<td></td>
 </tr>
 <tr>
-<td>isPublic</td>
-<td><code>boolean</code></td>
-<td>determines if profile is public or has private account</td>
-</tr>
-<tr>
-<td>picUrl</td>
-<td><code>string</code></td>
-<td>profile picture</td>
-</tr>
-<tr>
-<td>picUrlHd</td>
-<td><code>string</code></td>
-<td>profile picture in HD</td>
-</tr>
-<tr>
-<td>isBusinessAccount</td>
-<td><code>boolean</code></td>
-<td>This property is for <code>business</code> accounts</td>
-</tr>
-<tr>
-<td>businessCategory</td>
+<td>locationSlug</td>
 <td><code>string, null</code></td>
-<td>This property is for <code>business</code> accounts</td>
+<td></td>
 </tr>
 <tr>
-<td>businessEmail</td>
-<td><code>string, null</code></td>
-<td>This property is for <code>business</code> accounts</td>
-</tr>
-<tr>
-<td>businessPhone</td>
-<td><code>string, null</code></td>
-<td>This property is for <code>business</code> accounts</td>
-</tr>
-<tr>
-<td>businessAddress</td>
+<td>locationAddress</td>
 <td><code>object, null</code></td>
-<td>This property is for <code>business</code> accounts</td>
+<td></td>
 </tr>
 <tr>
-<td>postsCount</td>
-<td><code>number</code></td>
-<td>number of total posts uploaded</td>
-</tr>
-<tr>
-<td>postsList</td>
-<td><code>array</code> of <code>objects</code></td>
-<td>Contains the list of the latest 12 posts</td>
-</tr>
-<tr>
-<td>avgLikes</td>
-<td><code>number</code></td>
-<td>average likes per post based on <code>postsList</code></td>
-</tr>
-<tr>
-<td>engagementRate</td>
-<td><code>float</code></td>
-<td><code>avgLikes</code> to <code>followers</code> ratio</td>
-</tr>
-<tr>
-<td>videoViewsToFollowersRatio</td>
-<td><code>float</code></td>
-<td><code>avgVideoViews</code> to <code>followers</code> ratio</td>
-</tr>
-<tr>
-<td>uploadsWeek</td>
-<td><code>number</code></td>
-<td>Uploads count per week based on <code>postsList</code></td>
-</tr>
-<tr>
-<td>uploadsMonth</td>
-<td><code>number</code></td>
-<td>Uploads count per month based on <code>postsList</code></td>
-</tr>
-<tr>
-<td>avgComments</td>
-<td><code>number</code></td>
-<td>average comments based on <code>postsList</code></td>
-</tr>
-<tr>
-<td>avgVideoViews</td>
-<td><code>number</code></td>
-<td>average video views based on <code>postsList</code></td>
-</tr>
-<tr>
-<td>emailsList</td>
-<td><code>array</code> of <code>strings</code></td>
-<td>found emails in <code>biography</code></td>
+<td>caption</td>
+<td><code>string, null</code></td>
+<td></td>
 </tr>
 <tr>
 <td>mentionsList</td>
-<td><code>array</code> of <code>strings</code></td>
-<td>mentions found in <code>biography</code></td>
+<td><code>array</code> of <code>objects</code></td>
+<td></td>
+</tr>
+<tr>
+<td>sponsorsList</td>
+<td><code>array</code> of <code>objects</code></td>
+<td></td>
+</tr>
+<tr>
+<td>taggedList</td>
+<td><code>array</code> of <code>objects</code></td>
+<td></td>
+</tr>
+<tr>
+<td>commentsList</td>
+<td><code>array</code> of <code>objects</code></td>
+<td></td>
+</tr>
+<tr>
+<td>likesList</td>
+<td><code>array</code> of <code>objects</code></td>
+<td></td>
 </tr>
 <tr>
 <td>hashtagsList</td>
 <td><code>array</code> of <code>strings</code></td>
-<td>hashtags found in <code>biography</code></td>
+<td></td>
 </tr>
 <tr>
-<td>videoRate</td>
-<td><code>float</code></td>
-<td>video posts to total posts ratio, based on <code>postsList</code></td>
+<td>ownerFullName</td>
+<td><code>string, null</code></td>
+<td></td>
 </tr>
 <tr>
-<td>imageRate</td>
-<td><code>float</code></td>
-<td>image posts to total posts ratio, based on <code>postsList</code></td>
+<td>ownerId</td>
+<td><code>string</code></td>
+<td></td>
 </tr>
 <tr>
-<td>allPostsHashtagsList</td>
-<td><code>array</code> of <code>strings</code></td>
-<td>hastags found in captions, based on <code>postsList</code></td>
+<td>ownerUsername</td>
+<td><code>string</code></td>
+<td></td>
 </tr>
 <tr>
-<td>hashtagsPerPost</td>
-<td><code>float</code></td>
-<td><code>allPostsHashtagsList</code> length to <code>postsList</code> ratio</td>
+<td>ownerPic</td>
+<td><code>string</code></td>
+<td></td>
+</tr>
+<tr>
+<td>ownerIsPublic</td>
+<td><code>boolean</code></td>
+<td></td>
+</tr>
+<tr>
+<td>ownerIsVerified</td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -368,14 +340,10 @@
 
             
                 
-                <a href="../" class="navigation navigation-prev " aria-label="Previous page: Introduction">
+                <a href="profile-data-model.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Profile data model">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
-                
-                <a href="post-data-model.html" class="navigation navigation-next " aria-label="Next page: Post data model">
-                    <i class="fa fa-angle-right"></i>
-                </a>
                 
             
         
@@ -384,7 +352,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Profile data model","level":"1.2","depth":1,"next":{"title":"Post data model","level":"1.3","depth":1,"path":"pages/post-data-model.md","ref":"./pages/post-data-model.md","articles":[]},"previous":{"title":"Introduction","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"pages/profile-data-model.md","mtime":"2018-12-01T21:04:26.746Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-12-01T21:21:57.487Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Post data model","level":"1.3","depth":1,"previous":{"title":"Profile data model","level":"1.2","depth":1,"path":"pages/profile-data-model.md","ref":"./pages/profile-data-model.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"pages/post-data-model.md","mtime":"2018-12-01T21:19:30.588Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-12-01T21:21:57.487Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
