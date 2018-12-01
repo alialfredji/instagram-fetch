@@ -21,6 +21,7 @@
     "assert": "^1.4.1",
     "cheerio": "^1.0.0-rc.2",
     "isomorphic-fetch": "^2.2.1",
+    "jsonschema": "^1.2.4",
     "mocha": "^5.2.0",
     "superagent": "^4.0.0"
   },

@@ -1,11 +1,13 @@
 /**
  * Fetch an Instagram account
+ * 
+ * returns the json found in the html
  */
 
 const cheerio = require('cheerio')
 const fetch = require('isomorphic-fetch')
 
-const getErrorOrigin = require('../error/get-origin')
+const getErrorOrigin = require('../../error/get-origin')
 
 class FetchInstagramProfileError extends Error {
     constructor (message) {

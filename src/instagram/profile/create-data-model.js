@@ -1,14 +1,19 @@
-const getErrorOrigin = require('../error/get-origin')
-const text2emails = require('./lib/text2emails')
-const getPostTimestampByDate = require('./lib/get-post-timestamp-by-date')
-const getUploadFrequencyPerWeek = require('./lib/get-upload-frequency-per-week')
-const getAvgLikes = require('./lib/get-average-likes')
-const getAvgComments = require('./lib/get-average-comments')
-const getAvgVideoViews = require('./lib/get-average-video-views')
-const getEngagementRate = require('./lib/get-engagement-rate')
-const getTextUsernames = require('./lib/get-text-usernames')
-const getHashtags = require('./lib/get-hashtags')
-const getVideoViewsToFollowersRatio = require('./lib/get-video-views-to-followers-ratio')
+/*
+    receives the json from the fetch response
+    
+*/
+
+const getErrorOrigin = require('../../error/get-origin')
+const text2emails = require('../lib/text2emails')
+const getPostTimestampByDate = require('../lib/get-post-timestamp-by-date')
+const getUploadFrequencyPerWeek = require('../lib/get-upload-frequency-per-week')
+const getAvgLikes = require('../lib/get-average-likes')
+const getAvgComments = require('../lib/get-average-comments')
+const getAvgVideoViews = require('../lib/get-average-video-views')
+const getEngagementRate = require('../lib/get-engagement-rate')
+const getTextUsernames = require('../lib/get-text-usernames')
+const getHashtags = require('../lib/get-hashtags')
+const getVideoViewsToFollowersRatio = require('../lib/get-video-views-to-followers-ratio')
 
 class ProfileDataModelError extends Error {
     constructor (message) {

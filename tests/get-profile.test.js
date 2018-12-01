@@ -1,8 +1,8 @@
 
 const assert = require('assert')
 
-const fetchProfile = require('../src/instagram/fetch-instagram-profile')
-const createProfileDataModel = require('../src/instagram/profile-data-model')
+const fetchProfile = require('../src/instagram/profile/fetch-json')
+const createProfileDataModel = require('../src/instagram/profile/create-data-model')
 
 describe('Test getProfile', function() {
     this.timeout(10000)

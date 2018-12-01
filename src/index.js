@@ -1,13 +1,20 @@
 
-const fetchPost = require('./instagram/fetch-instagram-post')
-const createPostDataModel = require('./instagram/post-data-model')
+const fetchPostJson = require('./instagram/post/fetch-json')
+const createPostDataModel = require('./instagram/post/create-data-model')
+const validatePostJson = require('./instagram/post/validate-json')
 
-const fetchProfile = require('./instagram/fetch-instagram-profile')
-const createProfileDataModel = require('./instagram/profile-data-model')
+const fetchProfile = require('./instagram/profile/fetch-json')
+const createProfileDataModel = require('./instagram/profile/create-data-model')
 
 const getPost = async (code) => {
     try {
-        const json = await fetchPost(code)
+        const json = await fetchPostJson(code)
+        const validation = validatePostJson(json)
+
+        if (validation.errors.length) {
+            throw new Error(res.errors[0])
+        }
+
         const data = createPostDataModel(json)
 
         return data
