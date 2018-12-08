@@ -148,7 +148,7 @@ const postDataModel = (json) => {
             ownerIsVerified: data.owner.is_verified,
         }
     } catch (err) {
-        throw new PostDataModelError(err)
+        throw new PostDataModelError(err.message)
     }
 }
 

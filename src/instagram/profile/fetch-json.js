@@ -67,12 +67,12 @@ const fetchInstagramProfile = async (username) => {
         const profile = extractInstagramDataFromHtml(html)
 
         if (!profile) {
-            throw new Error('Instagram profile not found')
+            throw new Error(`[${username}]: Instagram profile not found`)
         }
 
         return profile
     } catch (err) {
-        throw new FetchInstagramProfileError(err)
+        throw new FetchInstagramProfileError(err.message)
     }
 }
 

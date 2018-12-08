@@ -1,6 +1,6 @@
 /*
     receives the json from the fetch response
-    
+
 */
 
 const getErrorOrigin = require('../../error/get-origin')
@@ -120,7 +120,7 @@ const profileDataModel = (json) => {
         const avgLikes = getAvgLikes(postsListShortened)
         const avgComments = getAvgComments(postsListShortened)
         const engagementRate = getEngagementRate(avgLikes, avgComments, followers)
-        const biography =  data.biography === null ? '' : data.biography.toLowerCase()
+        const biography = data.biography === null ? '' : data.biography.toLowerCase()
         const emailsList = text2emails(biography)
         const avgVideoViews = getAvgVideoViews(postsListShortened)
         const allPostsHashtagsList = profileAllPostsHashtagsList(postsList)
@@ -163,7 +163,7 @@ const profileDataModel = (json) => {
                 : 0,
         }
     } catch (err) {
-        throw new ProfileDataModelError(err)
+        throw new ProfileDataModelError(err.message)
     }
 }
 

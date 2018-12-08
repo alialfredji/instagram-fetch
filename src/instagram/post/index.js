@@ -7,7 +7,7 @@ const validateJson = (json) => {
     const validation = validatePostJson(json)
 
     if (validation.errors.length) {
-        throw new Error(res.errors[0])
+        throw new Error(validation.errors[0])
     }
 }
 

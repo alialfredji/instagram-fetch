@@ -19,7 +19,7 @@ const fetchPost = async (postCode) => {
         const res = await request.get(url)
         return res.body
     } catch (err) {
-        throw new FetchPostError(err)
+        throw new FetchPostError(err.message)
     }
 }
 
