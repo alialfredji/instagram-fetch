@@ -2,20 +2,20 @@
 
 Easy to use module to fetch data from instagram. NOTE! this returns a promise so you need to handle it.
 
-Import the module: `const publicInstagramApi = require('public-ig-api')`
+Import the module: `const instagramFetch = require('instagram-fetch')`
 
 ## Install module
 
-`yarn add public-ig-api`
+`yarn add instagram-fetch`
 
-`npm install public-ig-api --save`
+`npm install instagram-fetch --save`
 
 ## Get post data
 
 #### Promise
 
 ```
-publicInstagramApi.getPost('somePostCode') // example Bq0gUSGgFv7
+instagramFetch.getPost('somePostCode') // example Bq0gUSGgFv7
     .then(data => console.log(data))
     .catch(err => console.log(err))
 ```
@@ -23,7 +23,7 @@ publicInstagramApi.getPost('somePostCode') // example Bq0gUSGgFv7
 #### Async/Await
 
 ```
-const data = await publicInstagramApi.getPost('somePostCode') // example 'Bq0gUSGgFv7'
+const data = await instagramFetch.getPost('somePostCode') // example 'Bq0gUSGgFv7'
 console.log(data)
 ```
 
@@ -32,7 +32,7 @@ console.log(data)
 #### Promise
 
 ```
-publicInstagramApi.getProfile('someProfileUsername') // example 'instagram'
+instagramFetch.getProfile('someProfileUsername') // example 'instagram'
     .then(data => console.log(data))
     .catch(err => console.log(err))
 ```
@@ -40,6 +40,6 @@ publicInstagramApi.getProfile('someProfileUsername') // example 'instagram'
 #### Async/Await
 
 ```
-const data = await publicInstagramApi.getProfile('someProfileUsername') // example 'instagram'
+const data = await instagramFetch.getProfile('someProfileUsername') // example 'instagram'
 console.log(data)
 ```

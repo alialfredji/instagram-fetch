@@ -1,6 +1,6 @@
 {
   "name": "instagram-fetch",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Fetches instagram public data",
   "main": "index.js",
   "scripts": {
